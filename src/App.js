@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Dashboard from "./component/dashboard/Dashboard";
+import Home from "./component/front/Home";
+// import AddCustomerForm from "./component/dashboard/customer/AddCustomerForm";
+import AddServiceForm from "./component/dashboard/service/AddServiceForm";
+import Customer from "./component/dashboard/customer/Customer";
+import CustomerDetails from "./component/dashboard/customer/CustomerDetails";
+import Payment from "./component/dashboard/payment/Payment";
+import Service from './component/dashboard/service/Service';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Router>
+            <Switch>
+                <Route path="/" exact>
+                    <Home />
+                </Route>
+                <Route path="/dashboard" exact>
+                    <Dashboard />
+                </Route>
+                {/* <Route path="/add-customer">
+                    <AddCustomerForm />
+                </Route> */}
+                <Route path="/add-service">
+                    <AddServiceForm />
+                </Route>
+                <Route path="/customer" exact>
+                    <Customer />
+                </Route>
+                <Route path="/customer/:id">
+                    <CustomerDetails />
+                </Route>
+                <Route path="/payment">
+                    <Payment />
+                </Route>
+                <Route path="/service" exact>
+                    <Service />
+                </Route>
+            </Switch>
+        </Router>
+    );
 }
 
 export default App;
