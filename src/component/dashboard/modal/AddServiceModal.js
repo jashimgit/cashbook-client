@@ -3,23 +3,10 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
-export default function AddServiceMoal({ show, handleClose }) {
+export default function AddServiceMoal({ show, handleClose, customers }) {
     const { register, handleSubmit } = useForm();
-    const [customers, setCustomers] = useState([]);
-    console.log(customers);
-
-    useEffect(() => {
-        fetch("http://localhost:8000/customer")
-            .then((res) => res.json())
-            .then((data) => setCustomers(data.data));
-            console.log('service modal rendered')
-            return () => {
-                
-            }
-    }, []);
-
+    
     const onSubmit = (data) => {
-        console.log(data);
         fetch('http://localhost:8000/service', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

@@ -1,3 +1,4 @@
+import { createContext, useState, useEffect } from 'react';
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Dashboard from "./component/dashboard/Dashboard";
@@ -9,8 +10,24 @@ import CustomerDetails from "./component/dashboard/customer/CustomerDetails";
 import Payment from "./component/dashboard/payment/Payment";
 import Service from './component/dashboard/service/Service';
 
+
+
+
+// create Context for customers 
+
 function App() {
+    const CustomerContext = createContext({})
+
+    const [customers, setCutomers ] = useState([])
+
+
+    useEffect(() => {
+        fetch('http://localhost:8000/customer')
+        .then(res => res.json())
+        .then(data => setCutomers(data.data))
+    }, [])
     return (
+        <CustomerContext.Provider value={customers}>
         <Router>
             <Switch>
                 <Route path="/" exact>
@@ -39,6 +56,7 @@ function App() {
                 </Route>
             </Switch>
         </Router>
+        </CustomerContext.Provider>
     );
 }
 

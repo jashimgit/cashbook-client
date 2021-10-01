@@ -54,7 +54,7 @@ export default function Payment() {
                             {payments &&
                                 payments.map((payment, index) => {
                                         return (
-                                            <tr key={payment.index}>
+                                            <tr key={payment.id}>
                                                 <td>{index + 1}</td>
                                                 <td>{payment?.Customer?.customerName}</td>
                                                 <td>{payment.paymentType}</td>
