@@ -2,20 +2,21 @@
 import {useState, useEffect } from 'react'
 import DashboardLayout from '../Layout/DashboardLayout'
 import { AiOutlineEye, AiOutlinePlus } from "react-icons/ai";
-
+import {Link } from 'react-router-dom';
+import AddServiceModal from '../modal/AddServiceModal';
 
 export default function Service() {
     const [show, setShow] = useState(false);
     const [filter, setFilter] = useState('');
-
-    useEffect(() => {
-        fetch('http://localhost:8000/service')
-        .then(res => res.json())
-        .then(data => console.log(data))
-        return () => {
+    const handleClose = () => setShow(false);
+    // useEffect(() => {
+    //     fetch('http://localhost:8000/service')
+    //     .then(res => res.json())
+    //     .then(data => console.log(data))
+    //     return () => {
             
-        }
-    }, [])
+    //     }
+    // }, [])
 
 
     return (
@@ -24,11 +25,11 @@ export default function Service() {
                 <div className="col-sm-12 my-2 text-center ">
                     <h4>Service section</h4>
                     <div className="bg-secondary d-flex justify-content-between py-2">
-                        <button
-                            className="btn btn-success text-white btn-sm ml-2"
-                            
+                    <button
+                            className="btn btn-outline-danger text-white btn-sm ml-2"
+                            onClick={() => setShow(true)}
                         >
-                            <AiOutlinePlus /> Add Service
+                            <AiOutlinePlus /> Add Customer
                         </button>
 
                         <input
@@ -42,6 +43,7 @@ export default function Service() {
                     
                 </div>
                 
+                <AddServiceModal show={show} handleClose={handleClose} />
             </div>
         </DashboardLayout>
     )
