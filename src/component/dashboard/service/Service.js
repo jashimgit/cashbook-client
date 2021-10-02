@@ -1,17 +1,20 @@
 /* eslint-disable no-unused-vars */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import DashboardLayout from "../Layout/DashboardLayout";
 import { AiOutlineEye, AiOutlinePlus } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import AddServiceModal from "../modal/AddServiceModal";
 import formatDate from '../../../lib/dateFormat';
+import {CustomerContext } from '../../../App'
 
 export default function Service() {
     const [show, setShow] = useState(false);
     const [filter, setFilter] = useState("");
     const handleClose = () => setShow(false);
     const [services, setServices] = useState([]);
-    const [customers, setCustomers] = useState([]);
+    // const [customers, setCustomers] = useState([]);
+    const customers = useContext(CustomerContext)
+
     useEffect(() => {
         fetch("http://localhost:8000/service")
             .then((res) => res.json())
@@ -19,14 +22,7 @@ export default function Service() {
         return () => {};
     }, [services]);
 
-    useEffect(() => {
-        fetch("http://localhost:8000/customer")
-            .then((res) => res.json())
-            .then((data) => setCustomers(data.data));
-            return () => {
-                
-            }
-    }, [customers]);
+    
 
     return (
         <DashboardLayout>
@@ -38,7 +34,7 @@ export default function Service() {
                             className="btn btn-outline-danger text-white btn-sm ml-2"
                             onClick={() => setShow(true)}
                         >
-                            <AiOutlinePlus /> Add Customer
+                            <AiOutlinePlus /> Add Service
                         </button>
 
                         <input
@@ -65,7 +61,7 @@ export default function Service() {
                                 services.map((service, index) => {
                                     return (
                                         <tr key={service.id}>
-                                            <th scope="row">{index + 1} </th>
+                                            <td>{index + 1} </td>
                                             <td>
                                                 {service.Customer.customerName}
                                             </td>
@@ -80,7 +76,7 @@ export default function Service() {
                     </table>
                 </div>
 
-                <AddServiceModal show={show} handleClose={handleClose}  customers={customers} />
+                <AddServiceModal show={show} handleClose={handleClose}  />
             </div>
         </DashboardLayout>
     );

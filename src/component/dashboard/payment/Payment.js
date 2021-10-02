@@ -1,15 +1,16 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import { AiOutlineEye, AiOutlinePlus } from "react-icons/ai";
 import DashboardLayout from "../Layout/DashboardLayout";
 import AddPaymentModal from "../modal/AddPaymentModal";
+
 
 export default function Payment() {
     const [payments, setPayments] = useState([]);
     const [filter, setFilter] = useState("");
     const [show, setShow] = useState(false);
     const handleClose = () => setShow((show) => show === !show);
-
+    
     useEffect(() => {
         fetch("http://localhost:8000/payment")
             .then((res) => res.json())

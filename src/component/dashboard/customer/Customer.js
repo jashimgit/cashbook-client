@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import DashboardLayout from "../Layout/DashboardLayout";
 import { AiOutlineEye, AiOutlinePlus } from "react-icons/ai";
@@ -8,13 +8,15 @@ import { BiTrashAlt } from "react-icons/bi";
 import TestModal from "../modal/TestModal";
 import { useForm } from "react-hook-form";
 import formatDate from "../../../lib/dateFormat";
+import { CustomerContext } from '../../../App';
 
 // BsPencil
 export default function Customer() {
-    const [customers, setCustomers] = useState([]);
+    // const [customers, setCustomers] = useState([]);
     const [filter, setFilter] = useState("");
     const [show, setShow] = useState(false);
-    // const { id } = useParams()
+    
+    const customers = useContext(CustomerContext);
     const {
         register,
         handleSubmit,
@@ -23,18 +25,6 @@ export default function Customer() {
     // const onSubmit = (data) => console.log(data);
     const handleClose = () => setShow(false);
 
-    useEffect(() => {
-        fetch("http://localhost:8000/customer")
-            .then((res) => res.json())
-            .then((data) => setCustomers(data.data));
-        console.log("customer rendered");
-    }, []);
-
-    const convertDate = (str) => {
-        var currentdate = new Date(str * 1000);
-        var date = currentdate.toGMTString();
-        console.log(date);
-    };
 
     return (
         <DashboardLayout>

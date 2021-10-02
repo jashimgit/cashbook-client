@@ -1,11 +1,13 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import {CustomerContext} from '../../../App'
 
-export default function AddServiceMoal({ show, handleClose, customers }) {
+export default function AddServiceModal({ show, handleClose }) {
     const { register, handleSubmit } = useForm();
-    
+    const customers = useContext(CustomerContext);
+
     const onSubmit = (data) => {
         fetch('http://localhost:8000/service', {
             method: 'POST',
@@ -44,9 +46,9 @@ export default function AddServiceMoal({ show, handleClose, customers }) {
                                 custom
                                 {...register("customerId")}
                             >
-                                { customers && customers.map((customer) => {
+                                { customers && customers.map((customer, index) => {
                                     return (
-                                        <option value={customer.id}>
+                                        <option value={customer.id} key={index}>
                                             {customer.customerName}
                                         </option>
                                     );

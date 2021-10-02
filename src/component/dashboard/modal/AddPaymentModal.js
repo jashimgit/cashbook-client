@@ -1,21 +1,23 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import {CustomerContext} from '../../../App'
 
 export default function AddPaymentModal({ show, handleClose }) {
     const { register, handleSubmit } = useForm();
-    const [customers, setCustomers] = useState([]);
-
-    useEffect(() => {
-        fetch("http://localhost:8000/customer")
-            .then((res) => res.json())
-            .then((data) => setCustomers(data.data));
-            console.log('payment modal rendered')
-            return () => {
+    // const [customers, setCustomers] = useState([]);
+    const customers = useContext(CustomerContext);
+   
+    // useEffect(() => {
+    //     fetch("http://localhost:8000/customer")
+    //         .then((res) => res.json())
+    //         .then((data) => setCustomers(data.data));
+    //         console.log('payment modal rendered')
+    //         return () => {
                 
-            }
-    }, []);
+    //         }
+    // }, []);
 
     const onSubmit = (data) => {
         console.log(data);
@@ -57,7 +59,7 @@ export default function AddPaymentModal({ show, handleClose }) {
                             >
                                 {customers.map((customer) => {
                                     return (
-                                        <option value={customer.id}>
+                                        <option value={customer.id} key={customer.id}>
                                             {customer.customerName}
                                         </option>
                                     );

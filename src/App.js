@@ -3,7 +3,6 @@ import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Dashboard from "./component/dashboard/Dashboard";
 import Home from "./component/front/Home";
-// import AddCustomerForm from "./component/dashboard/customer/AddCustomerForm";
 import AddServiceModal from './component/dashboard/modal/AddServiceModal';
 import Customer from "./component/dashboard/customer/Customer";
 import CustomerDetails from "./component/dashboard/customer/CustomerDetails";
@@ -14,9 +13,9 @@ import Service from './component/dashboard/service/Service';
 
 
 // create Context for customers 
-
+export const CustomerContext = createContext({})
 function App() {
-    const CustomerContext = createContext({})
+    
 
     const [customers, setCutomers ] = useState([])
 
@@ -36,12 +35,6 @@ function App() {
                 <Route path="/dashboard" exact>
                     <Dashboard />
                 </Route>
-                {/* <Route path="/add-customer">
-                    <AddCustomerForm />
-                </Route> */}
-                <Route path="/add-service" exact>
-                    <AddServiceModal />
-                </Route>
                 <Route path="/customer" exact>
                     <Customer />
                 </Route>
@@ -53,6 +46,9 @@ function App() {
                 </Route>
                 <Route path="/service" exact>
                     <Service />
+                </Route>
+                <Route path="/add-service" exact>
+                    <AddServiceModal />
                 </Route>
             </Switch>
         </Router>

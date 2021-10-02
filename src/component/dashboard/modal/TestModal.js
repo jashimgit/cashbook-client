@@ -1,10 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+
 import { Modal, Button, Form } from "react-bootstrap";
 import {useForm } from 'react-hook-form';
 
+
 export default function TestModal({ show, handleClose }) {
     const { register, handleSubmit } = useForm();
+  
 
     const onSubmit = data => {
         fetch('http://localhost:8000/customer', {

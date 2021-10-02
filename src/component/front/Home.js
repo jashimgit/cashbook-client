@@ -5,7 +5,7 @@ export default function Home() {
     return (
         <div>
             <Navbar />
-            <h4>Welcome to Cashbook</h4>
+            <h4 className="text-center my-3">Welcome to Cashbook</h4>
         </div>
     )
 }
