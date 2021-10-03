@@ -18,6 +18,8 @@ export default function Payment() {
             console.log('payment component rendered');
     }, []);
 
+    
+
     return (
         <DashboardLayout>
             <div className="row">

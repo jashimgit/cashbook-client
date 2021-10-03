@@ -19,8 +19,8 @@ export default function Service() {
         fetch("http://localhost:8000/service")
             .then((res) => res.json())
             .then((data) => setServices(data.response));
-        return () => {};
-    }, [services]);
+    }, []);
+
 
     
 

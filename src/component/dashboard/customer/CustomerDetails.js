@@ -30,6 +30,17 @@ export default function CustomerDetails() {
         }
     };
 
+    const totalDue = () => {
+       
+        if(Payments && Payments.length > 0 ) {
+           return Payments.reduce( (currentValue, item) => currentValue + item.ReceivedAmount, 0)
+        } else {
+            return 'no payment found yet'
+        }
+       
+    }
+    console.log(totalDue());
+
     // console.log("total service price:", calculateTotalService());
 
     // function getPaymentList() {
@@ -73,8 +84,8 @@ export default function CustomerDetails() {
                                 <h5>{customerName}</h5>
                                 <h6>{address}</h6>
                                 <h6>Total Service Bill: {calculateTotalService()} Taka</h6>
-                                <h6>Total Paid: 22 Taka</h6>
-                                <h6>Total Due: 500 Taka</h6>
+                                <h6>Total Paid: {totalDue()} Taka</h6>
+                                <h6>Total Due: 0000  Taka</h6>
                                 <p className="proile-rating">
                                     Phone : <span> {phone} </span>
                                 </p>
