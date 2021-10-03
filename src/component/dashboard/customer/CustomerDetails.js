@@ -1,29 +1,57 @@
-import { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+import { useState, useEffect, useContext } from "react";
 import DashboardLayout from "../Layout/DashboardLayout";
 import { useParams } from "react-router-dom";
-import dateFormat from '../../../lib/dateFormat';
+import dateFormat from "../../../lib/dateFormat";
+// import { CustomerContext } from "../../../App";
 
 export default function CustomerDetails() {
-    const [customer, setCustomer] = useState([]);
-    // const [payment, setPayment] = useState([])
     const { id } = useParams();
-
-    console.log(customer);
+    const [customer, setCustomer] = useState({});
+    const { customerName, address, phone, status, Services, Payments } =
+        customer;
 
     useEffect(() => {
         fetch(`http://localhost:8000/customer/${id}`)
             .then((res) => res.json())
             .then((data) => setCustomer(data.customer[0]));
+    }, []);
 
-        return () => {};
-    }, [id]);
+    const calculateTotalService = () => {
+        if (Services && Services.length > 0) {
+            console.log(Services);
+            return Services.reduce(
+                (currentValue, item) => currentValue + item.serviceBill,
+                0
+            );
+        } else {
+            console.log("no data found");
+        }
+    };
 
+    // console.log("total service price:", calculateTotalService());
+
+    // function getPaymentList() {
+    //     if (Payments && Payments.length > 0) {
+    //         Payments.map((item, index) => {
+    //             return (
+    //                 <tr>
+    //                     <td>{index + 1}</td>
+    //                     <td>{item.paymentType}</td>
+    //                     <td>{item.ReceivedAmount}</td>
+    //                     <td>{dateFormat(item.createdAt)}</td>
+    //                 </tr>
+    //             );
+    //         });
+    //     }
+    // }
 
     return (
         <DashboardLayout>
             <div className="row">
                 <div className="col-sm-12 my-2">
-                    <h4>{customer?.customerName}</h4>
+                    <h4> {customerName}</h4>
                     <h5>ID: {id} </h5>
                 </div>
                 <div className="col-sm-12 mt-2">
@@ -42,11 +70,13 @@ export default function CustomerDetails() {
                         </div>
                         <div className="col-md-6">
                             <div className="profile-head">
-                                <h5>{customer.customerName}</h5>
-                                <h6>{customer.address}</h6>
+                                <h5>{customerName}</h5>
+                                <h6>{address}</h6>
+                                <h6>Total Service Bill: {calculateTotalService()} Taka</h6>
+                                <h6>Total Paid: 22 Taka</h6>
                                 <h6>Total Due: 500 Taka</h6>
                                 <p className="proile-rating">
-                                    Phone : <span>{customer.phone}</span>
+                                    Phone : <span> {phone} </span>
                                 </p>
                                 <ul
                                     className="nav nav-tabs"
@@ -113,7 +143,7 @@ export default function CustomerDetails() {
                                             <label>User Id</label>
                                         </div>
                                         <div className="col-md-6">
-                                            <p>{customer.id}</p>
+                                            <p>{id} </p>
                                         </div>
                                     </div>
                                     <div className="row">
@@ -121,7 +151,7 @@ export default function CustomerDetails() {
                                             <label>Name</label>
                                         </div>
                                         <div className="col-md-6">
-                                            <p>{customer.customerName}</p>
+                                            <p>{customer?.customerName}</p>
                                         </div>
                                     </div>
                                     <div className="row">
@@ -134,10 +164,10 @@ export default function CustomerDetails() {
                                     </div>
                                     <div className="row">
                                         <div className="col-md-6">
-                                            <label>Phone</label>
+                                            <label>phone</label>
                                         </div>
                                         <div className="col-md-6">
-                                            <p>{customer.phone}</p>
+                                            <p>{customer?.phone}</p>
                                         </div>
                                     </div>
                                     <div className="row">
@@ -161,23 +191,44 @@ export default function CustomerDetails() {
                                                 <th scope="col">#</th>
                                                 <th scope="col">paid By</th>
                                                 <th scope="col">amount</th>
-                                                <th scope="col">Payment Date</th>
+                                                <th scope="col">
+                                                    Payment Date
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {
-                                                customer.Payments.map((item, index) => {
+                                            {/* map function will be here or user defined function */}
+                                            {Payments && Payments.length > 0 ? (
+                                                Payments.map((item, index) => {
                                                     return (
                                                         <tr>
-                                                        <th scope="row">{index + 1} </th>
-                                                        <td>{item.paymentType}</td>
-                                                        <td>{item.ReceivedAmount}</td>
-                                                        <td>{dateFormat(item.createdAt)}</td>
-                                                    </tr>
-                                                    )
+                                                            <td>{index + 1}</td>
+                                                            <td>
+                                                                {
+                                                                    item.paymentType
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                {
+                                                                    item.ReceivedAmount
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                {dateFormat(
+                                                                    item.createdAt
+                                                                )}
+                                                            </td>
+                                                        </tr>
+                                                    );
                                                 })
-                                            }
-
+                                            ) : (
+                                                <tr>
+                                                    <td>no data</td>
+                                                    <td>no data</td>
+                                                    <td>no data</td>
+                                                    <td>no data</td>
+                                                </tr>
+                                            )}
                                         </tbody>
                                     </table>
                                 </div>
