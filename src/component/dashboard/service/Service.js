@@ -4,8 +4,8 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import { AiOutlineEye, AiOutlinePlus } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import AddServiceModal from "../modal/AddServiceModal";
-import formatDate from '../../../lib/dateFormat';
-import {CustomerContext } from '../../../App'
+import formatDate from "../../../lib/dateFormat";
+import { CustomerContext } from "../../../App";
 
 export default function Service() {
     const [show, setShow] = useState(false);
@@ -13,16 +13,13 @@ export default function Service() {
     const handleClose = () => setShow(false);
     const [services, setServices] = useState([]);
     // const [customers, setCustomers] = useState([]);
-    const customers = useContext(CustomerContext)
+    const customers = useContext(CustomerContext);
 
     useEffect(() => {
         fetch("http://localhost:8000/service")
             .then((res) => res.json())
             .then((data) => setServices(data.response));
     }, []);
-
-
-    
 
     return (
         <DashboardLayout>
@@ -58,25 +55,38 @@ export default function Service() {
                         </thead>
                         <tbody>
                             {services &&
-                                services.map((service, index) => {
-                                    return (
-                                        <tr key={service.id}>
-                                            <td>{index + 1} </td>
-                                            <td>
-                                                {service.Customer.customerName}
-                                            </td>
-                                            <td>{service.serviceType}</td>
-                                            <td> {service.serviceBill}</td>
-                                            <td>{service.paymentStatus}</td>
-                                            <td>{formatDate(service.jobDate)}</td>
-                                        </tr>
-                                    );
-                                })}
+                                services
+                                    .filter((value) => {
+                                        return value.Customer.customerName
+                                            .toLowerCase()
+                                            .includes(filter.toLowerCase());
+                                    })
+                                    .map((service, index) => {
+                                        return (
+                                            <tr key={service.id}>
+                                                <td>{index + 1} </td>
+                                                <td>
+                                                    {
+                                                        service.Customer
+                                                            .customerName
+                                                    }
+                                                </td>
+                                                <td>{service.serviceType}</td>
+                                                <td> {service.serviceBill}</td>
+                                                <td>{service.paymentStatus}</td>
+                                                <td>
+                                                    {formatDate(
+                                                        service.jobDate
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                         </tbody>
                     </table>
                 </div>
 
-                <AddServiceModal show={show} handleClose={handleClose}  />
+                <AddServiceModal show={show} handleClose={handleClose} />
             </div>
         </DashboardLayout>
     );
