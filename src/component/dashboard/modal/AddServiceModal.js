@@ -1,12 +1,13 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useContext } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import {CustomerContext} from '../../../App'
+
 
 export default function AddServiceModal({ show, handleClose }) {
     const { register, handleSubmit } = useForm();
-    const customers = useContext(CustomerContext);
+    
 
     const onSubmit = (data) => {
         fetch('http://localhost:8000/service', {

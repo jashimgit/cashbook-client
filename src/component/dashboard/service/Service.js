@@ -5,21 +5,27 @@ import { AiOutlineEye, AiOutlinePlus } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import AddServiceModal from "../modal/AddServiceModal";
 import formatDate from "../../../lib/dateFormat";
-import { CustomerContext } from "../../../App";
+
 
 export default function Service() {
     const [show, setShow] = useState(false);
     const [filter, setFilter] = useState("");
     const handleClose = () => setShow(false);
     const [services, setServices] = useState([]);
-    // const [customers, setCustomers] = useState([]);
-    const customers = useContext(CustomerContext);
+        
 
     useEffect(() => {
         fetch("http://localhost:8000/service")
             .then((res) => res.json())
-            .then((data) => setServices(data.response));
+            .then((data) => setServices(data.response))
+            console.log('service mounted');
     }, []);
+
+    useEffect(() => {
+        return ()=> {
+            console.log('service unmounted');
+        }
+    }, [])
 
     return (
         <DashboardLayout>

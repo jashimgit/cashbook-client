@@ -1,26 +1,42 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import DashboardLayout from "../Layout/DashboardLayout";
 import { AiOutlineEye, AiOutlinePlus } from "react-icons/ai";
 import { BsPencil } from "react-icons/bs";
 import { BiTrashAlt } from "react-icons/bi";
 import TestModal from "../modal/TestModal";
-import { useForm } from "react-hook-form";
 import formatDate from "../../../lib/dateFormat";
-import { CustomerContext } from '../../../App';
+import { useSelector, useDispatch } from "react-redux";
+import { setCustomers } from "./../../../redux/actions/customerAction";
+import axios from "axios";
 
 // BsPencil
 export default function Customer() {
-    // const [customers, setCustomers] = useState([]);
     const [filter, setFilter] = useState("");
     const [show, setShow] = useState(false);
-    
-    const customers = useContext(CustomerContext);
+    const dispatch = useDispatch();
 
     const handleClose = () => setShow(false);
 
+    const customers = useSelector((state) => state.allCustomers?.customers?.data);
 
+    const fetchCustomers = async () => {
+        const response = await axios
+            .get("http://localhost:8000/customer")
+            .catch((err) => console.log("err", err));
+        console.log(response.data);
+        dispatch(setCustomers(response?.data))
+    };
+
+    // fetchCustomers();
+
+    useEffect(() => {
+        fetchCustomers();
+    }, [])
+
+
+ 
     return (
         <DashboardLayout>
             <div className="row">
@@ -68,7 +84,9 @@ export default function Customer() {
                                         <td>{customer.customerName}</td>
                                         <td>{customer.address}</td>
                                         <td>{customer.phone}</td>
-                                        <td>{ new Date().toLocaleDateString() }</td>
+                                        <td>
+                                            {new Date().toLocaleDateString()}
+                                        </td>
                                         <td>
                                             {formatDate(customer.createdAt)}
                                         </td>

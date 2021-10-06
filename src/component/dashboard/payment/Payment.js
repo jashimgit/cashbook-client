@@ -18,7 +18,12 @@ export default function Payment() {
             console.log('payment component rendered');
     }, []);
 
-    
+    useEffect(() => {
+        
+        return () => {
+            console.log('Payment component unmounted')
+        }
+    }, [])
 
     return (
         <DashboardLayout>

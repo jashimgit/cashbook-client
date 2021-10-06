@@ -1,28 +1,37 @@
+/* eslint-disable no-undef */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useContext } from "react";
 import DashboardLayout from "../Layout/DashboardLayout";
 import { useParams } from "react-router-dom";
 import dateFormat from "../../../lib/dateFormat";
-// import { CustomerContext } from "../../../App";
+import { useDispatch, useSelector } from 'react-redux';
+import { selectedCustomer } from '../../../redux/actions/customerAction';
+
 
 export default function CustomerDetails() {
     const { id } = useParams();
-    const [customer, setCustomer] = useState({});
+    // const [customer, setCustomer] = useState({});
+    const dispatch = useDispatch()
+    const customer = useSelector(state => state.customer);
     const { customerName, address, phone, status, Services, Payments } =
         customer;
-
-    useEffect(() => {
+    
+    const getSelectedCustomer = ()=> {
         fetch(`http://localhost:8000/customer/${id}`)
             .then((res) => res.json())
-            .then((data) => setCustomer(data.customer[0]));
+            .then((data) => dispatch(selectedCustomer(data)))
+    }
+    useEffect(() => {
+        getSelectedCustomer()
+            
     }, []);
 
     const calculateTotalService = () => {
         if (Services && Services.length > 0) {
-            console.log(Services);
             return Services.reduce(
-                (currentValue, item) => currentValue + item.serviceBill,
+                (currentValue, item) =>
+                    parseInt(currentValue + item.serviceBill),
                 0
             );
         } else {
@@ -31,15 +40,17 @@ export default function CustomerDetails() {
     };
 
     const totalDue = () => {
-       
-        if(Payments && Payments.length > 0 ) {
-           return Payments.reduce( (currentValue, item) => currentValue + item.ReceivedAmount, 0)
+        if (Payments && Payments.length > 0) {
+            return Payments.reduce(
+                (currentValue, item) =>
+                    parseInt(currentValue + item.ReceivedAmount),
+                0
+            );
         } else {
-            return 'no payment found yet'
+            return "no payment found yet";
         }
-       
-    }
-    console.log(totalDue());
+    };
+    
 
     // console.log("total service price:", calculateTotalService());
 
@@ -83,9 +94,12 @@ export default function CustomerDetails() {
                             <div className="profile-head">
                                 <h5>{customerName}</h5>
                                 <h6>{address}</h6>
-                                <h6>Total Service Bill: {calculateTotalService()} Taka</h6>
+                                <h6>
+                                    Total Service Bill:{" "}
+                                    {calculateTotalService()} Taka
+                                </h6>
                                 <h6>Total Paid: {totalDue()} Taka</h6>
-                                <h6>Total Due: 0000  Taka</h6>
+                                <h6>Total Due: 0000 Taka</h6>
                                 <p className="proile-rating">
                                     Phone : <span> {phone} </span>
                                 </p>
@@ -212,7 +226,7 @@ export default function CustomerDetails() {
                                             {Payments && Payments.length > 0 ? (
                                                 Payments.map((item, index) => {
                                                     return (
-                                                        <tr>
+                                                        <tr key={index}>
                                                             <td>{index + 1}</td>
                                                             <td>
                                                                 {

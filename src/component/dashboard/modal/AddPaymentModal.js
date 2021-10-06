@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useContext } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
@@ -6,9 +7,7 @@ import {CustomerContext} from '../../../App'
 
 export default function AddPaymentModal({ show, handleClose }) {
     const { register, handleSubmit } = useForm();
-    // const [customers, setCustomers] = useState([]);
-    const customers = useContext(CustomerContext);
-   
+
     // useEffect(() => {
     //     fetch("http://localhost:8000/customer")
     //         .then((res) => res.json())

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { createContext, useState, useEffect } from 'react';
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -13,20 +14,19 @@ import Service from './component/dashboard/service/Service';
 
 
 // create Context for customers 
-export const CustomerContext = createContext({})
+// export const CustomerContext = createContext({})
 function App() {
     
+    // const [customers, setCutomers ] = useState([])
 
-    const [customers, setCutomers ] = useState([])
 
-
-    useEffect(() => {
-        fetch('http://localhost:8000/customer')
-        .then(res => res.json())
-        .then(data => setCutomers(data.data))
-    }, [])
+    // useEffect(() => {
+    //     fetch('http://localhost:8000/customer')
+    //     .then(res => res.json())
+    //     .then(data => setCutomers(data.data))
+    // }, [])
     return (
-        <CustomerContext.Provider value={customers}>
+        <>
         <Router>
             <Switch>
                 <Route path="/" exact>
@@ -52,7 +52,7 @@ function App() {
                 </Route>
             </Switch>
         </Router>
-        </CustomerContext.Provider>
+        </>
     );
 }
 
