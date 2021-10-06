@@ -9,7 +9,7 @@ import TestModal from "../modal/TestModal";
 import formatDate from "../../../lib/dateFormat";
 import { useSelector, useDispatch } from "react-redux";
 import { setCustomers } from "./../../../redux/actions/customerAction";
-import axios from "axios";
+
 
 // BsPencil
 export default function Customer() {
@@ -21,20 +21,11 @@ export default function Customer() {
 
     const customers = useSelector((state) => state.allCustomers?.customers?.data);
 
-    const fetchCustomers = async () => {
-        const response = await axios
-            .get("http://localhost:8000/customer")
-            .catch((err) => console.log("err", err));
-        console.log(response.data);
-        dispatch(setCustomers(response?.data))
-    };
-
-    // fetchCustomers();
-
-    useEffect(() => {
-        fetchCustomers();
-    }, [])
-
+    useEffect(()=> {
+        fetch('http://localhost:8000/customer')
+        .then(res => res.json())
+        .then(data => dispatch(setCustomers(data)))
+    }, [dispatch])
 
  
     return (
@@ -73,7 +64,7 @@ export default function Customer() {
                         </thead>
                         <tbody>
                             {customers
-                                .filter((value) => {
+                                ?.filter((value) => {
                                     return value.customerName
                                         .toLowerCase()
                                         .includes(filter.toLowerCase());
