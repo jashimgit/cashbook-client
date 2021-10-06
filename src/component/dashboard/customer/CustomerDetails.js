@@ -1,31 +1,23 @@
 /* eslint-disable no-undef */
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { useState, useEffect, useContext } from "react";
+import { useEffect } from "react";
 import DashboardLayout from "../Layout/DashboardLayout";
 import { useParams } from "react-router-dom";
 import dateFormat from "../../../lib/dateFormat";
-import { useDispatch, useSelector } from 'react-redux';
-import { selectedCustomer } from '../../../redux/actions/customerAction';
-
+import { useDispatch, useSelector } from "react-redux";
+import { selectedCustomer } from "../../../redux/actions/customerAction";
 
 export default function CustomerDetails() {
     const { id } = useParams();
-    // const [customer, setCustomer] = useState({});
-    const dispatch = useDispatch()
-    const customer = useSelector(state => state.customer);
-    const { customerName, address, phone, status, Services, Payments } =
-        customer;
-    
-    const getSelectedCustomer = ()=> {
+    const dispatch = useDispatch();
+    const customer = useSelector((state) => state.customer);
+    const { customerName, address, phone, Services, Payments } = customer;
+
+    useEffect(() => {
         fetch(`http://localhost:8000/customer/${id}`)
             .then((res) => res.json())
-            .then((data) => dispatch(selectedCustomer(data)))
-    }
-    useEffect(() => {
-        getSelectedCustomer()
-            
-    }, []);
+            .then((data) => dispatch(selectedCustomer(data.data[0])));
+    }, [id, dispatch]);
 
     const calculateTotalService = () => {
         if (Services && Services.length > 0) {
@@ -50,8 +42,7 @@ export default function CustomerDetails() {
             return "no payment found yet";
         }
     };
-    
-
+    console.log('customer: ',customer);
     // console.log("total service price:", calculateTotalService());
 
     // function getPaymentList() {
@@ -73,7 +64,7 @@ export default function CustomerDetails() {
         <DashboardLayout>
             <div className="row">
                 <div className="col-sm-12 my-2">
-                    <h4> {customerName}</h4>
+                    <h4> { customerName } </h4>
                     <h5>ID: {id} </h5>
                 </div>
                 <div className="col-sm-12 mt-2">
@@ -222,7 +213,6 @@ export default function CustomerDetails() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {/* map function will be here or user defined function */}
                                             {Payments && Payments.length > 0 ? (
                                                 Payments.map((item, index) => {
                                                     return (
@@ -265,3 +255,20 @@ export default function CustomerDetails() {
         </DashboardLayout>
     );
 }
+
+/**
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ */

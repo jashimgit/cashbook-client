@@ -3,21 +3,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import {CustomerContext} from '../../../App'
+
 
 export default function AddPaymentModal({ show, handleClose }) {
     const { register, handleSubmit } = useForm();
-
-    // useEffect(() => {
-    //     fetch("http://localhost:8000/customer")
-    //         .then((res) => res.json())
-    //         .then((data) => setCustomers(data.data));
-    //         console.log('payment modal rendered')
-    //         return () => {
-                
-    //         }
-    // }, []);
-
     const onSubmit = (data) => {
         console.log(data);
         fetch('http://localhost:8000/payment', {

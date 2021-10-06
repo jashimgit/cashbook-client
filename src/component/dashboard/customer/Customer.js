@@ -1,15 +1,13 @@
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import DashboardLayout from "../Layout/DashboardLayout";
 import { AiOutlineEye, AiOutlinePlus } from "react-icons/ai";
 import { BsPencil } from "react-icons/bs";
 import { BiTrashAlt } from "react-icons/bi";
-import TestModal from "../modal/TestModal";
+import AddCustomerModal from "../modal/AddCustomerModal";
 import formatDate from "../../../lib/dateFormat";
 import { useSelector, useDispatch } from "react-redux";
 import { setCustomers } from "./../../../redux/actions/customerAction";
-
 
 // BsPencil
 export default function Customer() {
@@ -19,15 +17,16 @@ export default function Customer() {
 
     const handleClose = () => setShow(false);
 
-    const customers = useSelector((state) => state.allCustomers?.customers?.data);
+    const customers = useSelector(
+        (state) => state.allCustomers?.customers?.data
+    );
 
-    useEffect(()=> {
-        fetch('http://localhost:8000/customer')
-        .then(res => res.json())
-        .then(data => dispatch(setCustomers(data)))
-    }, [dispatch])
+    useEffect(() => {
+        fetch("http://localhost:8000/customer")
+            .then((res) => res.json())
+            .then((data) => dispatch(setCustomers(data)));
+    }, [dispatch]);
 
- 
     return (
         <DashboardLayout>
             <div className="row">
@@ -106,7 +105,7 @@ export default function Customer() {
                         </tbody>
                     </table>
                 </div>
-                <TestModal show={show} handleClose={handleClose} />
+                <AddCustomerModal show={show} handleClose={handleClose} />
             </div>
         </DashboardLayout>
     );

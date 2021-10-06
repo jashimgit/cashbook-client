@@ -1,30 +1,27 @@
 /* eslint-disable no-unused-vars */
 
 import { Modal, Button, Form } from "react-bootstrap";
-import {useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 
-
-export default function TestModal({ show, handleClose }) {
+export default function AddCustomerModal({ show, handleClose }) {
     const { register, handleSubmit } = useForm();
-  
 
-    const onSubmit = data => {
-        fetch('http://localhost:8000/customer', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+    const onSubmit = (data) => {
+        fetch("http://localhost:8000/customer", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 customerName: data.customerName,
                 address: data.address,
                 phone: data.phone,
-                status: data.status
-            })
+                status: data.status,
+            }),
         })
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err))
-        handleClose()
+            .then((res) => res.json())
+            .then((data) => console.log(data))
+            .catch((err) => console.log(err));
+        handleClose();
     };
-
 
     return (
         <>
@@ -34,16 +31,18 @@ export default function TestModal({ show, handleClose }) {
                 backdrop="static"
                 keyboard={false}
             >
+                <Form onSubmit={handleSubmit(onSubmit)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add Customer</Modal.Title>
                 </Modal.Header>
-                <Form onSubmit={handleSubmit(onSubmit)}>
-                    <Modal.Body>
+                
+                <Modal.Body>
+                    
                         <Form.Group className="mb-3">
                             <Form.Control
                                 type="text"
                                 placeholder="Enter customer Name"
-                                {...register('customerName')}
+                                {...register("customerName")}
                             />
                         </Form.Group>
 
@@ -52,7 +51,7 @@ export default function TestModal({ show, handleClose }) {
                                 as="textarea"
                                 rows={2}
                                 placeholder="Enter customer address"
-                                {...register('address')}
+                                {...register("address")}
                             />
                         </Form.Group>
 
@@ -60,16 +59,15 @@ export default function TestModal({ show, handleClose }) {
                             <Form.Control
                                 type="text"
                                 placeholder="Enter customer Phone"
-                                {...register('phone')}
+                                {...register("phone")}
                             />
                         </Form.Group>
                         <Form.Group>
-                            <Form>
+                            <>
                                 {["radio"].map((type) => (
                                     <div
                                         key={`inline-${type}`}
                                         className="mb-3"
-                                        
                                     >
                                         <Form.Check
                                             inline
@@ -77,31 +75,32 @@ export default function TestModal({ show, handleClose }) {
                                             name="group1"
                                             type={type}
                                             id={`inline-${type}-1`}
-                                            value='1'
-                                            {...register('status')}
+                                            value="1"
+                                            {...register("status")}
                                         />
                                         <Form.Check
                                             inline
                                             label="Inactive"
                                             name="group1"
                                             type={type}
-                                            value='0'
+                                            value="0"
                                             id={`inline-${type}-2`}
-                                            {...register('status')}
+                                            {...register("status")}
                                         />
                                     </div>
                                 ))}
-                            </Form>
+                            </>
                         </Form.Group>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
-                            Close
-                        </Button>
-                        <Button variant="primary" type="submit">
-                            Submit
-                        </Button>
-                    </Modal.Footer>
+                    
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" type="submit">
+                        Submit
+                    </Button>
+                </Modal.Footer>
                 </Form>
             </Modal>
         </>
