@@ -23,7 +23,8 @@ export const selectedCustomerReducer = (state = {}, {type, payload})=> {
                 ...state,
                 ...payload
             };
-    
+        case actionTypes.REMOVE_SELECTED_CUSTOMER:
+            return {};
         default:
             return state;
     }

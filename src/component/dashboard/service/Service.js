@@ -2,30 +2,20 @@
 import { useState, useEffect, useContext } from "react";
 import DashboardLayout from "../Layout/DashboardLayout";
 import { AiOutlineEye, AiOutlinePlus } from "react-icons/ai";
-import { Link } from "react-router-dom";
 import AddServiceModal from "../modal/AddServiceModal";
 import formatDate from "../../../lib/dateFormat";
-
 
 export default function Service() {
     const [show, setShow] = useState(false);
     const [filter, setFilter] = useState("");
     const handleClose = () => setShow(false);
     const [services, setServices] = useState([]);
-        
 
     useEffect(() => {
         fetch("http://localhost:8000/service")
             .then((res) => res.json())
-            .then((data) => setServices(data.response))
-            console.log('service mounted');
+            .then((data) => setServices(data.response));
     }, []);
-
-    useEffect(() => {
-        return ()=> {
-            console.log('service unmounted');
-        }
-    }, [])
 
     return (
         <DashboardLayout>

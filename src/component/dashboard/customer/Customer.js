@@ -6,14 +6,14 @@ import { BsPencil } from "react-icons/bs";
 import { BiTrashAlt } from "react-icons/bi";
 import AddCustomerModal from "../modal/AddCustomerModal";
 import formatDate from "../../../lib/dateFormat";
-import { useSelector, useDispatch } from "react-redux";
-import { setCustomers } from "./../../../redux/actions/customerAction";
+import { useSelector } from "react-redux";
+// import { setCustomers } from "./../../../redux/actions/customerAction";
 
 // BsPencil
 export default function Customer() {
     const [filter, setFilter] = useState("");
     const [show, setShow] = useState(false);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     const handleClose = () => setShow(false);
 
@@ -21,11 +21,11 @@ export default function Customer() {
         (state) => state.allCustomers?.customers?.data
     );
 
-    useEffect(() => {
-        fetch("http://localhost:8000/customer")
-            .then((res) => res.json())
-            .then((data) => dispatch(setCustomers(data)));
-    }, [dispatch]);
+    // useEffect(() => {
+    //     fetch("http://localhost:8000/customer")
+    //         .then((res) => res.json())
+    //         .then((data) => dispatch(setCustomers(data)));
+    // }, [dispatch]);
 
     return (
         <DashboardLayout>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import { useEffect } from "react";
@@ -5,7 +6,7 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import { useParams } from "react-router-dom";
 import dateFormat from "../../../lib/dateFormat";
 import { useDispatch, useSelector } from "react-redux";
-import { selectedCustomer } from "../../../redux/actions/customerAction";
+import { selectedCustomer, removeSelectedCustomer } from "../../../redux/actions/customerAction";
 
 export default function CustomerDetails() {
     const { id } = useParams();
@@ -17,49 +18,37 @@ export default function CustomerDetails() {
         fetch(`http://localhost:8000/customer/${id}`)
             .then((res) => res.json())
             .then((data) => dispatch(selectedCustomer(data.data[0])));
-    }, [id, dispatch]);
 
-    const calculateTotalService = () => {
+            return () => {
+                dispatch(removeSelectedCustomer())
+            }
+    }, [id]);
+
+  
+
+    const totalDue = () => {
+        let dueAmount;
+        let paidAmount;
+        let totalAmount;
+
         if (Services && Services.length > 0) {
-            return Services.reduce(
+        totalAmount =  Services.reduce(
                 (currentValue, item) =>
                     parseInt(currentValue + item.serviceBill),
                 0
             );
-        } else {
-            console.log("no data found");
         }
-    };
-
-    const totalDue = () => {
         if (Payments && Payments.length > 0) {
-            return Payments.reduce(
+            paidAmount =  Payments.reduce(
                 (currentValue, item) =>
                     parseInt(currentValue + item.ReceivedAmount),
                 0
             );
-        } else {
-            return "no payment found yet";
-        }
-    };
-    console.log('customer: ',customer);
-    // console.log("total service price:", calculateTotalService());
-
-    // function getPaymentList() {
-    //     if (Payments && Payments.length > 0) {
-    //         Payments.map((item, index) => {
-    //             return (
-    //                 <tr>
-    //                     <td>{index + 1}</td>
-    //                     <td>{item.paymentType}</td>
-    //                     <td>{item.ReceivedAmount}</td>
-    //                     <td>{dateFormat(item.createdAt)}</td>
-    //                 </tr>
-    //             );
-    //         });
-    //     }
-    // }
-
+        } 
+        return dueAmount = parseInt(totalAmount - paidAmount);
+        
+    }
+    
     return (
         <DashboardLayout>
             <div className="row">
@@ -85,12 +74,12 @@ export default function CustomerDetails() {
                             <div className="profile-head">
                                 <h5>{customerName}</h5>
                                 <h6>{address}</h6>
-                                <h6>
-                                    Total Service Bill:{" "}
+                                {/* <h6>
+                                    Total Service Bill: 
                                     {calculateTotalService()} Taka
-                                </h6>
-                                <h6>Total Paid: {totalDue()} Taka</h6>
-                                <h6>Total Due: 0000 Taka</h6>
+                                </h6> */}
+                                {/* <h6>Total Paid: {totalDue()} Taka</h6> */}
+                                <h6>Total Due: {totalDue()} Taka</h6>
                                 <p className="proile-rating">
                                     Phone : <span> {phone} </span>
                                 </p>

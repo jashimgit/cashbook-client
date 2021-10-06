@@ -13,3 +13,10 @@ export const selectedCustomer = (customer) => {
         payload: customer,
     };
 };
+
+
+export const removeSelectedCustomer = () => {
+    return {
+        type: actionTypes.REMOVE_SELECTED_CUSTOMER
+    };
+};

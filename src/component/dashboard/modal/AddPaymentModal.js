@@ -1,14 +1,15 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-
+import { useSelector } from 'react-redux';
 
 export default function AddPaymentModal({ show, handleClose }) {
     const { register, handleSubmit } = useForm();
+    const customers = useSelector(state => state.allCustomers?.customers.data);
+    const payments = useSelector(state => state.payments.payments);
     const onSubmit = (data) => {
-        console.log(data);
         fetch('http://localhost:8000/payment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -19,12 +20,13 @@ export default function AddPaymentModal({ show, handleClose }) {
                 notes: data.notes
             })
         })
-        .then(res => res.json())
-        .then(data => console.log(data))
         .catch(err => console.log(err))
         handleClose()
     };
 
+    useEffect( () => {
+        console.log('add payment modal component rendered')
+    }, [payments])
     return (
         <>
             <Modal
@@ -68,7 +70,7 @@ export default function AddPaymentModal({ show, handleClose }) {
                         <Form.Group className="mb-3">
                             <Form.Control
                                 type="text"
-                                placeholder="Enter Notes"
+                                placeholder="Enter Received Amount"
                                 {...register("ReceivedAmount")}
                             />
                         </Form.Group>

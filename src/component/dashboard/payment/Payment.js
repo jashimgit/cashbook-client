@@ -3,28 +3,19 @@ import { useEffect, useState} from "react";
 import { AiOutlineEye, AiOutlinePlus } from "react-icons/ai";
 import DashboardLayout from "../Layout/DashboardLayout";
 import AddPaymentModal from "../modal/AddPaymentModal";
+import { useSelector } from 'react-redux';
 
 
 export default function Payment() {
-    const [payments, setPayments] = useState([]);
     const [filter, setFilter] = useState("");
     const [show, setShow] = useState(false);
     const handleClose = () => setShow((show) => show === !show);
+    const payments = useSelector(state => state.payments.payments);
     
-    useEffect(() => {
-        fetch("http://localhost:8000/payment")
-            .then((res) => res.json())
-            .then((data) => setPayments(data.paymentlist));
-            console.log('payment component rendered');
-    }, []);
-
-    useEffect(() => {
-        
-        return () => {
-            console.log('Payment component unmounted')
-        }
-    }, [])
-
+    useEffect( () => {
+        console.log('payment component rendered')
+    }, [payments])
+    
     return (
         <DashboardLayout>
             <div className="row">
