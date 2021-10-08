@@ -1,27 +1,26 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState} from "react";
+import { useEffect, useState, useContext } from "react";
 import { AiOutlineEye, AiOutlinePlus } from "react-icons/ai";
 import DashboardLayout from "../Layout/DashboardLayout";
 import AddPaymentModal from "../modal/AddPaymentModal";
-import { useSelector } from 'react-redux';
-
+import { AppContext } from "../../../App";
+import formatDate from '../../../lib/dateFormat';
 
 export default function Payment() {
+    const {customers, payments} = useContext(AppContext);
+    
     const [filter, setFilter] = useState("");
     const [show, setShow] = useState(false);
     const handleClose = () => setShow((show) => show === !show);
-    const payments = useSelector(state => state.payments.payments);
-    
-    useEffect( () => {
-        console.log('payment component rendered')
-    }, [payments])
-    
+
+
+    console.log('all payment list', payments);
     return (
         <DashboardLayout>
             <div className="row">
                 <div className="col-sm-12 my-2 text-center">
                     <h4>Payment section</h4>
-                    <div className="bg-purple d-flex justify-content-between py-2">
+                    <div className="bgBlue d-flex justify-content-between py-2">
                         <button
                             className="btn btn-outline-info text-white btn-sm ml-2"
                             onClick={() => setShow(true)}
@@ -41,10 +40,9 @@ export default function Payment() {
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">customer name</th>
-                                <th scope="col">payment type</th>
+                                <th scope="col">@Name</th>
+                                <th scope="col">@Type</th>
                                 <th scope="col">Received</th>
-                                
                                 <th scope="col">Notes</th>
                                 <th scope="col">UpdateTime</th>
                             </tr>
@@ -52,20 +50,22 @@ export default function Payment() {
                         <tbody>
                             {payments &&
                                 payments.map((payment, index) => {
-                                        return (
-                                            <tr key={payment.id}>
-                                                <td>{index + 1}</td>
-                                                <td>{payment?.Customer?.customerName}</td>
-                                                <td>{payment.paymentType}</td>
-                                                <td>
-                                                    {payment.ReceivedAmount}
-                                                </td>
-                                                <td>{payment.DueAmount}</td>
-                                                <td> {payment.notes}</td>
-                                                <td>{payment.updatedAt}</td>
-                                            </tr>
-                                        );
-                                    })}
+                                    return (
+                                        <tr key={payment.id}>
+                                            <td>{index + 1}</td>
+                                            <td>
+                                                {
+                                                    payment?.Customer
+                                                        ?.customerName
+                                                }
+                                            </td>
+                                            <td>{payment.paymentType}</td>
+                                            <td>{payment.ReceivedAmount}</td>
+                                            <td> {payment.notes}</td>
+                                            <td>{formatDate(payment.updatedAt)}</td>
+                                        </tr>
+                                    );
+                                })}
                         </tbody>
                     </table>
                 </div>

@@ -3,15 +3,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { useSelector } from 'react-redux';
+import { AppContext } from './../../../App';
+
 
 
 export default function AddServiceModal({ show, handleClose }) {
     const { register, handleSubmit } = useForm();
-    
-    const customers = useSelector(
-        (state) => state.allCustomers?.customers?.data
-    );
+    const {customers} = useContext(AppContext)
     const onSubmit = (data) => {
         fetch('http://localhost:8000/service', {
             method: 'POST',

@@ -11,22 +11,26 @@ import Payment from "./component/dashboard/payment/Payment";
 import Service from './component/dashboard/service/Service';
 
 
+export const AppContext = createContext()
 
-
-// create Context for customers 
-// export const CustomerContext = createContext({})
 function App() {
     
-    // const [customers, setCutomers ] = useState([])
+    const [customers, setCutomers ] = useState([])
+    const [payments, setPayments] = useState([]);
 
+    useEffect(() => {
+        fetch('http://localhost:8000/customer')
+        .then(res => res.json())
+        .then(data => setCutomers(data.data))
+    }, [])
+    useEffect(() => {
+        fetch('http://localhost:8000/payment')
+        .then(res => res.json())
+        .then(data => setPayments(data.paymentlist))
+    }, [])
 
-    // useEffect(() => {
-    //     fetch('http://localhost:8000/customer')
-    //     .then(res => res.json())
-    //     .then(data => setCutomers(data.data))
-    // }, [])
     return (
-        <>
+        <AppContext.Provider value={{customers, payments}}>
         <Router>
             <Switch>
                 <Route path="/" exact>
@@ -52,7 +56,7 @@ function App() {
                 </Route>
             </Switch>
         </Router>
-        </>
+        </AppContext.Provider>
     );
 }
 

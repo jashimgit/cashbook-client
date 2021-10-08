@@ -5,7 +5,10 @@ import { AiOutlineEye, AiOutlinePlus } from "react-icons/ai";
 import AddServiceModal from "../modal/AddServiceModal";
 import formatDate from "../../../lib/dateFormat";
 
+import { AppContext } from './../../../App';
+
 export default function Service() {
+    const {customers} = useContext(AppContext)
     const [show, setShow] = useState(false);
     const [filter, setFilter] = useState("");
     const handleClose = () => setShow(false);
@@ -22,7 +25,7 @@ export default function Service() {
             <div className="row">
                 <div className="col-sm-12 my-2 text-center ">
                     <h4>Service section</h4>
-                    <div className="bg-secondary d-flex justify-content-between py-2">
+                    <div className="bgBlue d-flex justify-content-between py-2">
                         <button
                             className="btn btn-outline-danger text-white btn-sm ml-2"
                             onClick={() => setShow(true)}

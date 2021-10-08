@@ -1,14 +1,14 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { useSelector } from 'react-redux';
+import { AppContext } from './../../../App';
+
 
 export default function AddPaymentModal({ show, handleClose }) {
+    const {customers} = useContext(AppContext);
     const { register, handleSubmit } = useForm();
-    const customers = useSelector(state => state.allCustomers?.customers.data);
-    const payments = useSelector(state => state.payments.payments);
     const onSubmit = (data) => {
         fetch('http://localhost:8000/payment', {
             method: 'POST',
@@ -21,12 +21,11 @@ export default function AddPaymentModal({ show, handleClose }) {
             })
         })
         .catch(err => console.log(err))
+        
         handleClose()
     };
 
-    useEffect( () => {
-        console.log('add payment modal component rendered')
-    }, [payments])
+    
     return (
         <>
             <Modal

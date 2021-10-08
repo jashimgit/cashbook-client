@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import DashboardLayout from "../Layout/DashboardLayout";
 import { AiOutlineEye, AiOutlinePlus } from "react-icons/ai";
@@ -6,33 +6,24 @@ import { BsPencil } from "react-icons/bs";
 import { BiTrashAlt } from "react-icons/bi";
 import AddCustomerModal from "../modal/AddCustomerModal";
 import formatDate from "../../../lib/dateFormat";
-import { useSelector } from "react-redux";
-// import { setCustomers } from "./../../../redux/actions/customerAction";
+import { AppContext } from '../../../App';
+
+
 
 // BsPencil
 export default function Customer() {
+    const { customers} = useContext(AppContext)
     const [filter, setFilter] = useState("");
     const [show, setShow] = useState(false);
-    // const dispatch = useDispatch();
 
     const handleClose = () => setShow(false);
-
-    const customers = useSelector(
-        (state) => state.allCustomers?.customers?.data
-    );
-
-    // useEffect(() => {
-    //     fetch("http://localhost:8000/customer")
-    //         .then((res) => res.json())
-    //         .then((data) => dispatch(setCustomers(data)));
-    // }, [dispatch]);
 
     return (
         <DashboardLayout>
             <div className="row">
                 <div className="col-sm-12 my-2 text-center ">
                     <h4>Customer section</h4>
-                    <div className="bg-dark d-flex justify-content-between py-2">
+                    <div className="bgBlue d-flex justify-content-between py-2">
                         <button
                             className="btn btn-success text-white btn-sm ml-2"
                             onClick={() => setShow(true)}
