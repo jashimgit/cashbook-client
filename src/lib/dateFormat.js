@@ -12,25 +12,13 @@ function formatDate(timestamp, format = "d-m-y") {
 
     switch (format) {
         case "d-m-y":
-            dateString += fullYear + "-";
-            dateString += month + "-";
-            dateString += date;
+            dateString += date + "/";
+            dateString += month + "/";
+            dateString += fullYear;
             break;
         default:
             return dateString;
     }
-
-    /*
-    switch (format) {
-        case "d-m-y":
-
-        case "default":
-            dateString += fullYear + "-";
-            dateString += month + "-";
-            dateString += date;
-            return dateString;
-    }*/
-
     return dateString;
 }
 

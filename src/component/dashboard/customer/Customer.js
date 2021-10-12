@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext , useEffect} from "react";
 import { Link } from "react-router-dom";
 import DashboardLayout from "../Layout/DashboardLayout";
 import { AiOutlineEye, AiOutlinePlus } from "react-icons/ai";
@@ -6,18 +6,22 @@ import { BsPencil } from "react-icons/bs";
 import { BiTrashAlt } from "react-icons/bi";
 import AddCustomerModal from "../modal/AddCustomerModal";
 import formatDate from "../../../lib/dateFormat";
-import { AppContext } from '../../../App';
 
-
+import { AppContext } from "./../../../context/AppContext";
 
 // BsPencil
 export default function Customer() {
-    const { customers} = useContext(AppContext)
+    const { customers } = useContext(AppContext);
     const [filter, setFilter] = useState("");
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
+    useEffect(() => {
 
+        return () => {
+            console.log('customer component unmounted')
+        }
+    },[])
     return (
         <DashboardLayout>
             <div className="row">

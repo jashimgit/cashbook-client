@@ -3,18 +3,26 @@ import { useEffect, useState, useContext } from "react";
 import { AiOutlineEye, AiOutlinePlus } from "react-icons/ai";
 import DashboardLayout from "../Layout/DashboardLayout";
 import AddPaymentModal from "../modal/AddPaymentModal";
-import { AppContext } from "../../../App";
 import formatDate from '../../../lib/dateFormat';
 
+import { AppContext } from './../../../context/AppContext';
+
 export default function Payment() {
-    const {customers, payments} = useContext(AppContext);
+    const {customers} = useContext(AppContext);
+    const {payments} = useContext(AppContext);
     
     const [filter, setFilter] = useState("");
     const [show, setShow] = useState(false);
     const handleClose = () => setShow((show) => show === !show);
 
+    useEffect(() => {
 
-    console.log('all payment list', payments);
+        return () => {
+            console.log('payment component unmounted')
+        }
+    },[])
+
+
     return (
         <DashboardLayout>
             <div className="row">

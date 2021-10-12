@@ -4,21 +4,23 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import { AiOutlineEye, AiOutlinePlus } from "react-icons/ai";
 import AddServiceModal from "../modal/AddServiceModal";
 import formatDate from "../../../lib/dateFormat";
-
-import { AppContext } from './../../../App';
+import { AppContext } from './../../../context/AppContext';
 
 export default function Service() {
     const {customers} = useContext(AppContext)
+    const {services} = useContext(AppContext)
     const [show, setShow] = useState(false);
     const [filter, setFilter] = useState("");
     const handleClose = () => setShow(false);
-    const [services, setServices] = useState([]);
+    
 
     useEffect(() => {
-        fetch("http://localhost:8000/service")
-            .then((res) => res.json())
-            .then((data) => setServices(data.response));
-    }, []);
+
+        return () => {
+            console.log('service component unmounted')
+        }
+    },[])
+
 
     return (
         <DashboardLayout>

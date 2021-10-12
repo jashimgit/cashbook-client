@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { createContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Dashboard from "./component/dashboard/Dashboard";
@@ -9,28 +9,18 @@ import Customer from "./component/dashboard/customer/Customer";
 import CustomerDetails from "./component/dashboard/customer/CustomerDetails";
 import Payment from "./component/dashboard/payment/Payment";
 import Service from './component/dashboard/service/Service';
+import AppContextProvider from './context/AppContext';
 
 
-export const AppContext = createContext()
+
 
 function App() {
-    
-    const [customers, setCutomers ] = useState([])
-    const [payments, setPayments] = useState([]);
+      
 
-    useEffect(() => {
-        fetch('http://localhost:8000/customer')
-        .then(res => res.json())
-        .then(data => setCutomers(data.data))
-    }, [])
-    useEffect(() => {
-        fetch('http://localhost:8000/payment')
-        .then(res => res.json())
-        .then(data => setPayments(data.paymentlist))
-    }, [])
+   
 
     return (
-        <AppContext.Provider value={{customers, payments}}>
+        <AppContextProvider>
         <Router>
             <Switch>
                 <Route path="/" exact>
@@ -56,7 +46,7 @@ function App() {
                 </Route>
             </Switch>
         </Router>
-        </AppContext.Provider>
+        </AppContextProvider>
     );
 }
 

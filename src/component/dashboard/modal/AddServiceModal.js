@@ -3,7 +3,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { AppContext } from './../../../App';
+
+import { AppContext } from './../../../context/AppContext';
 
 
 

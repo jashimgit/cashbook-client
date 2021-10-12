@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
-import { AppContext } from "../../../App";
+
+import { AppContext } from './../../../context/AppContext';
 
 export default function CustomerLists() {
     const {customers} = useContext(AppContext);
